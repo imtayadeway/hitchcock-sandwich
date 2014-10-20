@@ -7,15 +7,14 @@ def strip_tags(string)
 end
 
 def stitch_paragraphs(paragraphs)
-  paragraphs
-    .map { |paragraph| strip_tags(paragraph.to_s) }
-    .join("\n\n")
+  paragraphs.map { |p| p.to_s }.join("\n\n")
 end
 
 uri = open('https://en.wikipedia.org/wiki/Alfred_Hitchcock')
 page = Nokogiri::HTML(uri)
 paragraphs = page.css('p')
-text = stitch_paragraphs(paragraphs)
+html = stitch_paragraphs(paragraphs)
+text = strip_tags(html)
 
 tagger = EngTagger.new
 tagged = tagger.add_tags(text)
